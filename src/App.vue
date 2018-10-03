@@ -17,14 +17,11 @@
               <!-- input text -->
               <!-- app-textarea -->
               <div class="input-component">
-                <div class="input-field">
-                  <label for="input-text">Type Anything...</label>
-                  <textarea 
-                    id="input-text" 
-                    class="materialize-textarea"
-                    v-model="text">
-                  </textarea>
-                </div>
+                <app-textarea
+                  id="input-text"
+                  label="Type Something..."
+                  v-model="text">
+                </app-textarea>
               </div>
 
               <!-- input rate -->
@@ -74,19 +71,18 @@
 
     </div>
 
-    <!-- <pre>{{text}}</pre>
-    <pre>{{rate}}</pre>
-    <pre>{{pitch}}</pre> -->
-    <!-- <pre>{{synth.speaking}}</pre> -->
+    <!-- check -->
     <pre>{{voice}}</pre>
     <pre>{{rate}}</pre>
     <pre>{{pitch}}</pre>
+    <pre>{{text}}</pre>
 
   </div>
 </template>
 
 <script>
 import Materialize from "materialize-css/dist/js/materialize.min.js";
+import InputTextarea from "./components/InputTextarea.vue";
 import InputSelect from "./components/InputSelect.vue";
 import InputRange from "./components/InputRange.vue";
 
@@ -103,6 +99,7 @@ export default {
     };
   },
   components: {
+    appTextarea: InputTextarea,
     appSelect: InputSelect,
     appRange: InputRange
   },
