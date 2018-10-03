@@ -15,7 +15,7 @@
             <form class="col s12">
 
               <!-- input text -->
-              <!-- app-text -->
+              <!-- app-textarea -->
               <div class="input-component">
                 <div class="input-field">
                   <label for="input-text">Type Anything...</label>
@@ -30,31 +30,25 @@
               <!-- input rate -->
               <!-- app-range -->
               <div class="input-component">
-                <label for="input-rate">
-                  <div>Rate<span class="right">{{rate}}</span></div>
-                </label>
-                <input 
-                  id="input-rate" 
-                  type="range" 
+                <app-range
+                  label="Rate"
                   min="0.5"
                   max="2"
                   step="0.1"
                   v-model="rate">
+                </app-range>
               </div>
 
               <!-- input pitch -->
               <!-- app-range -->
               <div class="input-component">
-                <label for="input-pitch">
-                  <div>Pitch<span class="right">{{pitch}}</span></div>
-                </label>
-                <input 
-                  id="input-pitch" 
-                  type="range" 
-                  min="0" 
+                <app-range
+                  label="Pitch"
+                  min="0"
                   max="2"
                   step="0.1"
                   v-model="pitch">
+                </app-range>
               </div>
 
               <!-- input voice -->
@@ -85,6 +79,8 @@
     <pre>{{pitch}}</pre> -->
     <!-- <pre>{{synth.speaking}}</pre> -->
     <pre>{{voice}}</pre>
+    <pre>{{rate}}</pre>
+    <pre>{{pitch}}</pre>
 
   </div>
 </template>
@@ -92,6 +88,7 @@
 <script>
 import Materialize from "materialize-css/dist/js/materialize.min.js";
 import InputSelect from "./components/InputSelect.vue";
+import InputRange from "./components/InputRange.vue";
 
 export default {
   name: "app",
@@ -106,7 +103,8 @@ export default {
     };
   },
   components: {
-    appSelect: InputSelect
+    appSelect: InputSelect,
+    appRange: InputRange
   },
   methods: {
     getVoices() {
