@@ -5,6 +5,7 @@
         <div class="col s6 offset-s3">
 
           <!-- Logo Component -->
+          <!-- app-logo -->
           <div class="logo center">
             <h3>Logo</h3>
           </div>
@@ -14,6 +15,7 @@
             <form class="col s12">
 
               <!-- input text -->
+              <!-- app-text -->
               <div class="input-component">
                 <div class="input-field">
                   <label for="input-text">Type Anything...</label>
@@ -26,6 +28,7 @@
               </div>
 
               <!-- input rate -->
+              <!-- app-range -->
               <div class="input-component">
                 <label for="input-rate">
                   <div>Rate<span class="right">{{rate}}</span></div>
@@ -40,6 +43,7 @@
               </div>
 
               <!-- input pitch -->
+              <!-- app-range -->
               <div class="input-component">
                 <label for="input-pitch">
                   <div>Pitch<span class="right">{{pitch}}</span></div>
@@ -54,19 +58,15 @@
               </div>
 
               <!-- input voice -->
+              <!-- app-select -->
               <div class="input-component">
-                <div class="input-field">
-                  <select
-                    id="input-voice" 
-                    class="">
-                    <template v-if="voices">
-                      <option v-for="(voice, index) of voices"
-                        :key="index" 
-                        :value="index">{{voice.name}}</option>
-                    </template>
-                  </select>
-                  <label>Voices</label>
-                </div>
+                <template v-if="voices">
+                  <app-select 
+                    v-model="voice" 
+                    :options="voices"
+                    label="Voices">
+                  </app-select>
+                </template>
               </div>
 
               <!-- speak button -->
@@ -84,12 +84,14 @@
     <pre>{{rate}}</pre>
     <pre>{{pitch}}</pre> -->
     <!-- <pre>{{synth.speaking}}</pre> -->
+    <pre>{{voice}}</pre>
 
   </div>
 </template>
 
 <script>
-import Materialize from "materialize-css/dist/js/materialize";
+import Materialize from "materialize-css/dist/js/materialize.min.js";
+import InputSelect from "./components/InputSelect.vue";
 
 export default {
   name: "app",
@@ -99,8 +101,12 @@ export default {
       text: null,
       rate: 1,
       pitch: 1,
+      voice: null,
       voices: null
     };
+  },
+  components: {
+    appSelect: InputSelect
   },
   methods: {
     getVoices() {
@@ -112,9 +118,6 @@ export default {
     if (this.synth.onvoiceschanged !== undefined) {
       this.synth.onvoiceschanged = this.getVoices;
     }
-  },
-  updated() {
-    Materialize.AutoInit();
   }
 };
 </script>
