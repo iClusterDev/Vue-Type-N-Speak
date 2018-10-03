@@ -53,16 +53,20 @@
               <div class="input-component">
                 <template v-if="voices">
                   <app-select 
+                    label="Voices"
                     v-model="voice" 
-                    :options="voices"
-                    label="Voices">
+                    :options="voices">
                   </app-select>
                 </template>
               </div>
 
               <!-- speak button -->
               <div class="center">
-                <button class="waves-effect waves-light btn">Say It</button>
+                <button 
+                  class="waves-effect waves-light btn"
+                  v-on:click.prevent="speak">
+                  Say It
+                </button>
               </div>
             </form>
           </div>
@@ -72,10 +76,10 @@
     </div>
 
     <!-- check -->
-    <pre>{{voice}}</pre>
+    <pre>{{text}}</pre>
     <pre>{{rate}}</pre>
     <pre>{{pitch}}</pre>
-    <pre>{{text}}</pre>
+    <pre>{{voice}}</pre>
 
   </div>
 </template>
@@ -106,6 +110,24 @@ export default {
   methods: {
     getVoices() {
       this.voices = this.synth.getVoices();
+    },
+    speak() {
+      if (this.text && this.voice) {
+        if (this.synth.speaking) {
+          return;
+        } else {
+          let speech = new SpeechSynthesisUtterance(this.text);
+          speech.rate = this.rate;
+          speech.pitch = this.pitch;
+          speech.voice = null;
+          this.voices.forEach(voice => {
+            if (this.voice === voice.name) {
+              speech.voice = voice;
+            }
+          });
+          this.synth.speak(speech);
+        }
+      }
     }
   },
   mounted() {
