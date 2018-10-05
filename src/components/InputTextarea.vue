@@ -31,4 +31,22 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+// color palette
+$color1: #d75c37;
+$color2: #67727a;
+$color3: #6991ac;
+$color4: #c3d7df;
+$color5: #f5f5f5;
+$color6: darken($color2, 30);
+
+// style
+textarea {
+  color: $color5;
+}
+
+.input-field textarea:focus {
+  border-bottom: 1px solid $color1 !important;
+  box-shadow: none !important;
+}
+</style>
