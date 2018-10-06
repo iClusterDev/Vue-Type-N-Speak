@@ -53,7 +53,7 @@
           <div class="col s12">
             <div class="center">
               <button 
-                class="waves-effect waves-light btn btn-large"
+                class="waves-effect waves-light btn"
                 v-on:click.prevent="speak">
                 Speak!
               </button>

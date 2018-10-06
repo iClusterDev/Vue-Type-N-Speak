@@ -1,8 +1,9 @@
 <template>
   <div class="input-select">
     <div class="input-field">
-      <select
-        v-on:input="$emit('input', $event.target.value)">
+      <select        
+        v-bind:value="value"
+        v-on:change="$emit('input', $event.target.value)">
         <option disabled selected value="">Please select one</option>
         <template v-if="options">
           <option 
@@ -14,17 +15,6 @@
         </template>
       </select>
       <label v-if="label">{{label}}</label>
-
-    <!-- <div class="input-field col s12">
-      <select>
-        <option value="" disabled selected>Choose your option</option>
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
-        <option value="3">Option 3</option>
-      </select>
-      <label>Materialize Select</label>
-    </div> -->
-
     </div>
   </div>
 </template>
@@ -48,6 +38,17 @@ export default {
       default: null
     }
   },
+  directives: {
+    init(el, binding) {
+      let key = binding.value.key;
+      let length = binding.value.array.length;
+      if (key == length - 1) {
+        if (typeof binding.value.callback === "function") {
+          binding.value.callback();
+        }
+      }
+    }
+  },
   methods: {
     mInit() {
       var el = document.querySelector("select");
@@ -59,17 +60,6 @@ export default {
   },
   updated() {
     this.mInit();
-  },
-  directives: {
-    init(el, binding) {
-      let key = binding.value.key;
-      let length = binding.value.array.length;
-      if (key == length - 1) {
-        if (typeof binding.value.callback === "function") {
-          binding.value.callback();
-        }
-      }
-    }
   }
 };
 
