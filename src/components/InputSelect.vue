@@ -1,7 +1,8 @@
 <template>
   <div class="input-select">
     <div class="input-field">
-      <select        
+      <select
+        v-bind:id="id"      
         v-bind:value="value"
         v-on:change="$emit('input', $event.target.value)">
         <option disabled selected value="">Please select one</option>
@@ -10,7 +11,7 @@
             v-for="(option, index) of options"
             v-init="{key: index, array: options, callback: mInit}"
             v-bind:key="index"
-            v-bind:value="option.name">{{option.name}}
+            v-bind:value="option">{{option}}
           </option>
         </template>
       </select>
@@ -25,6 +26,9 @@ import Materialize from "materialize-css/dist/js/materialize.min.js";
 export default {
   name: "input-select",
   props: {
+    id: {
+      type: String
+    },
     label: {
       type: String,
       default: null
@@ -51,7 +55,7 @@ export default {
   },
   methods: {
     mInit() {
-      var el = document.querySelector("select");
+      var el = document.querySelector(`#${this.id}`);
       var instance = Materialize.FormSelect.init(el, {});
     }
   },

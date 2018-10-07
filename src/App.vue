@@ -5,8 +5,8 @@
       <!-- Logo Component -->
       <header><app-logo></app-logo></header>
 
-      <!-- Form Component -->
       <form>
+        <!-- input text -->
         <div class="row">
           <div class="col s12">
             <div class="input-component">
@@ -16,8 +16,9 @@
                 v-model="text">
               </app-textarea>
             </div>
-          </div>            
-          <div class="col s12">
+          </div>
+          <!-- rate -->
+          <div class="col s6">
             <div class="input-component">
               <app-range
                 label="Rate"
@@ -28,7 +29,8 @@
               </app-range>
             </div>
           </div>
-          <div class="col s12">
+          <!-- pitch -->
+          <div class="col s6">
             <div class="input-component">
               <app-range
                 label="Pitch"
@@ -39,6 +41,7 @@
               </app-range>
             </div>
           </div>
+          <!-- volume -->
           <div class="col s12">
             <div class="input-component">
               <app-range
@@ -50,19 +53,22 @@
               </app-range>
             </div>
           </div>
-          <!-- <div class="col s12">
+          <!-- select languages -->
+          <div class="col s12">
             <div class="input-component">
-              <template v-if="voices">
-                <app-select 
-                  label="Voices"
-                  v-model="voice" 
-                  :options="voices">
+              <template v-if="languages">
+                <app-select
+                  id="languages"
+                  label="Language"
+                  v-model="language" 
+                  :options="languages">
                 </app-select>
               </template>
             </div>
-          </div> -->
+          </div>
+          <!-- submit -->
           <div class="col s12">
-            <div class="center">
+            <div class="submit-component center">
               <button 
                 class="waves-effect waves-light btn"
                 v-on:click.prevent="speak">
@@ -89,14 +95,22 @@ export default {
   data() {
     return {
       synth: window.speechSynthesis,
+      synthVoices: null,
       text: null,
       rate: 1,
       pitch: 1,
       volume: 0.5,
-      voice: null,
-      lang: "it-IT",
-      voices: null
+      language: null
     };
+  },
+  computed: {
+    languages() {
+      if (this.synthVoices) {
+        return [...new Set(this.synthVoices.map(voice => voice.lang))];
+      } else {
+        return null;
+      }
+    }
   },
   components: {
     appTextarea: InputTextarea,
@@ -106,11 +120,20 @@ export default {
   },
   methods: {
     getVoices() {
-      this.voices = this.synth.getVoices();
+      return new Promise(resolve => {
+        let voices = this.synth.getVoices();
+        if (voices.length) {
+          resolve(voices);
+          return;
+        }
+        this.synth.onvoiceschanged = () => {
+          voices = this.synth.getVoices();
+          resolve(voices);
+        };
+      });
     },
     speak() {
-      // if (this.text && this.voice) {
-      if (this.text) {
+      if (this.text && this.language) {
         if (this.synth.speaking) {
           return;
         } else {
@@ -118,24 +141,14 @@ export default {
           speech.rate = this.rate;
           speech.pitch = this.pitch;
           speech.volume = this.volume;
-          speech.lang = this.lang;
-          // speech.voice = null;
-          this.voices.forEach(voice => {
-            // if (this.voice === voice.name) {
-            //   speech.voice = voice;
-            // }
-            console.log(voice);
-          });
+          speech.lang = this.language;
           this.synth.speak(speech);
         }
       }
     }
   },
-  mounted() {
-    this.getVoices();
-    if (this.synth.onvoiceschanged !== undefined) {
-      this.synth.onvoiceschanged = this.getVoices;
-    }
+  async beforeMount() {
+    this.synthVoices = await this.getVoices();
   }
 };
 </script>
@@ -172,6 +185,10 @@ header {
 
 .input-component {
   padding-bottom: 1.5rem;
+}
+
+.submit-component {
+  margin: 1rem 0;
 }
 
 @media only screen and (min-width: 300px) and (max-width: 499px) {
