@@ -147,7 +147,7 @@ export default {
       }
     }
   },
-  async beforeMount() {
+  async mounted() {
     this.synthVoices = await this.getVoices();
   }
 };
