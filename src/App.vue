@@ -17,7 +17,7 @@
               </app-textarea>
             </div>
           </div>            
-          <div class="col s6">
+          <div class="col s12">
             <div class="input-component">
               <app-range
                 label="Rate"
@@ -28,7 +28,7 @@
               </app-range>
             </div>
           </div>
-          <div class="col s6">
+          <div class="col s12">
             <div class="input-component">
               <app-range
                 label="Pitch"
@@ -41,6 +41,17 @@
           </div>
           <div class="col s12">
             <div class="input-component">
+              <app-range
+                label="Volume"
+                min="0"
+                max="1"
+                step="0.1"
+                v-model="volume">
+              </app-range>
+            </div>
+          </div>
+          <!-- <div class="col s12">
+            <div class="input-component">
               <template v-if="voices">
                 <app-select 
                   label="Voices"
@@ -49,7 +60,7 @@
                 </app-select>
               </template>
             </div>
-          </div>
+          </div> -->
           <div class="col s12">
             <div class="center">
               <button 
@@ -81,7 +92,9 @@ export default {
       text: null,
       rate: 1,
       pitch: 1,
+      volume: 0.5,
       voice: null,
+      lang: "it-IT",
       voices: null
     };
   },
@@ -96,18 +109,22 @@ export default {
       this.voices = this.synth.getVoices();
     },
     speak() {
-      if (this.text && this.voice) {
+      // if (this.text && this.voice) {
+      if (this.text) {
         if (this.synth.speaking) {
           return;
         } else {
           let speech = new SpeechSynthesisUtterance(this.text);
           speech.rate = this.rate;
           speech.pitch = this.pitch;
-          speech.voice = null;
+          speech.volume = this.volume;
+          speech.lang = this.lang;
+          // speech.voice = null;
           this.voices.forEach(voice => {
-            if (this.voice === voice.name) {
-              speech.voice = voice;
-            }
+            // if (this.voice === voice.name) {
+            //   speech.voice = voice;
+            // }
+            console.log(voice);
           });
           this.synth.speak(speech);
         }
@@ -145,7 +162,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -60%);
+  transform: translate(-50%, -50%);
 }
 
 header {

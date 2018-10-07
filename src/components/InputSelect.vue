@@ -62,35 +62,6 @@ export default {
     this.mInit();
   }
 };
-
-/*
-document.addEventListener("DOMContentLoaded", function() {
-  var elems = document.querySelector("select");
-  var instances = Materialize.FormSelect.init(elems, {});
-});
-*/
-
-/*
-forCallback(el, binding) {
-  let element = binding.value;
-  var key = element.key;
-  var len = 0;
-
-  if (Array.isArray(element.array)) {
-    len = element.array.length;
-  } else if (typeof element.array === "object") {
-    var keys = Object.keys(element.array);
-    key = keys.indexOf(key);
-    len = keys.length;
-  }
-
-  if (key == len - 1) {
-    if (typeof element.callback === "function") {
-      element.callback();
-    }
-  }
-}
- */
 </script>
 
 <style scoped lang="scss"></style>
