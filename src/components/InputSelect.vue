@@ -11,7 +11,7 @@
             v-for="(option, index) of options"
             v-init="{key: index, array: options, callback: mInit}"
             v-bind:key="index"
-            v-bind:value="option">{{option}}
+            v-bind:value="option.value">{{option.name}}
           </option>
         </template>
       </select>

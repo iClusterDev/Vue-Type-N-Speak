@@ -100,17 +100,23 @@ export default {
       rate: 1,
       pitch: 1,
       volume: 0.5,
-      language: null
+      language: null,
+      languages: [
+        { name: "English", value: "en-GB" },
+        { name: "Italian", value: "it-IT" },
+        { name: "French", value: "fr-FR" },
+        { name: "Spanish", value: "es-ES" }
+      ]
     };
   },
   computed: {
-    languages() {
-      if (this.synthVoices) {
-        return [...new Set(this.synthVoices.map(voice => voice.lang))];
-      } else {
-        return null;
-      }
-    }
+    // languages() {
+    //   if (this.synthVoices) {
+    //     return [...new Set(this.synthVoices.map(voice => voice.lang))];
+    //   } else {
+    //     return null;
+    //   }
+    // }
   },
   components: {
     appTextarea: InputTextarea,
